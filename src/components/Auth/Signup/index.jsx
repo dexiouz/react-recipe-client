@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useMutation } from "@apollo/react-hooks";
+import { SIGNUP_USER } from "../../gql/mutations";
 import { Form } from "./styles";
 const Index = () => {
   const [state, setState] = useState({
@@ -7,13 +9,35 @@ const Index = () => {
     email: "",
     comfirmPassword: "",
   });
+
   const { username, password, email, comfirmPassword } = state;
+
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setState({ [name]: value });
+    setState({
+      ...state,
+      [name]: value,
+    });
   };
+
+  const [signupUser, { loading }] = useMutation(SIGNUP_USER);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = {
+      username: state.username,
+      password: state.password,
+      email: state.email,
+    };
+    signupUser({
+      variables: { data },
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err, "err"));
+  };
+  console.log(state);
   return (
-    <Form className="App">
+    <Form className="App" onSubmit={(e) => handleSubmit(e)}>
       <h2>Sign Up</h2>
       <form classname="form">
         <input
@@ -44,7 +68,7 @@ const Index = () => {
           onChange={handleChange}
           value={comfirmPassword}
         />
-        <button>Submit</button>
+        <button>{loading ? "Loading" : "Submit"}</button>
       </form>
     </Form>
   );

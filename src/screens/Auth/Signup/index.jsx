@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/react-hooks";
-import { SIGNUP_USER } from "../../gql/mutations";
+import { SIGNUP_USER } from "../../../gql/mutations";
 import { Form } from "./styles";
+import { Error } from "../../../components/Error";
 const Index = () => {
   const [state, setState] = useState({
     username: "",
@@ -74,7 +75,7 @@ const Index = () => {
         >
           {loading ? "Loading..." : "Submit"}
         </button>
-        {error && <p className="error">{error.message}</p>}
+        {error && <Error error={error} />}
       </form>
     </Form>
   );

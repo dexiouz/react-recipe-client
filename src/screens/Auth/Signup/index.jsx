@@ -20,7 +20,7 @@ const Index = () => {
     });
   };
 
-  const [signupUser, { loading }] = useMutation(SIGNUP_USER);
+  const [signupUser, { loading, error }] = useMutation(SIGNUP_USER);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -68,7 +68,13 @@ const Index = () => {
           onChange={handleChange}
           value={comfirmPassword}
         />
-        <button>{loading ? "Loading" : "Submit"}</button>
+        <button
+          disabled={loading}
+          style={{ backgroundColor: loading ? "grey" : "#004cff" }}
+        >
+          {loading ? "Loading..." : "Submit"}
+        </button>
+        {error && <p className="error">{error.message}</p>}
       </form>
     </Form>
   );

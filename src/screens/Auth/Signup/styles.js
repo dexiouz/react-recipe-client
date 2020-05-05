@@ -15,6 +15,10 @@ export const Form = styled.div`
     > button {
       background-color: #004cff;
       color: #fff;
+      outline: none;
+    }
+    .error {
+      color: red;
     }
   }
 `;

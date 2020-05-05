@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "@apollo/react-hooks";
-import { GET_ALL_RECIPES } from "../gql/queries";
+import { GET_ALL_RECIPES } from "./gql/queries";
 
 const App = () => {
   const { loading, error, data } = useQuery(GET_ALL_RECIPES);

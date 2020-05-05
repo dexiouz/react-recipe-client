@@ -11,9 +11,9 @@ import {
   Link,
 } from "react-router-dom";
 import "./index.css";
-import App from "./components/App";
-import Signin from "../src/components/Auth/Signin";
-import Signup from "../src/components/Auth/Signup";
+import App from "../src/App";
+// import Signin from "../src/components/Auth/Signin";
+// import Signup from "../src/components/Auth/Signup";
 const client = new ApolloClient({
   uri: "http://localhost:4444/graphql",
 });
@@ -21,9 +21,9 @@ const client = new ApolloClient({
 const Root = () => (
   <Router>
     <Switch>
-      <Route path="/" exact component={Signup} />
-      <Route path="/signin" component={Signin} />
-      <Route path="/signup" component={Signup} />
+      <Route path="/" exact component={App} />
+      {/* <Route path="/signin" component={Signin} />
+      <Route path="/signup" component={Signup} /> */}
       <Redirect to="/" />
     </Switch>
   </Router>

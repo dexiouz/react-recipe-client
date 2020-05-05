@@ -3,15 +3,17 @@ import { useMutation } from "@apollo/react-hooks";
 import { SIGNUP_USER } from "../../../gql/mutations";
 import { Form } from "./styles";
 import { Error } from "../../../components/Error";
-const Index = () => {
-  const [state, setState] = useState({
-    username: "",
-    password: "",
-    email: "",
-    comfirmPassword: "",
-  });
 
+const initialState = {
+  username: "",
+  password: "",
+  email: "",
+  comfirmPassword: "",
+};
+const Index = () => {
+  const [state, setState] = useState({ ...initialState });
   const { username, password, email, comfirmPassword } = state;
+  const clearState = () => setState({ ...initialState });
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -23,6 +25,11 @@ const Index = () => {
 
   const [signupUser, { loading, error }] = useMutation(SIGNUP_USER);
 
+  const validateForm = () => {
+    const isInvalid =
+      !username || !email || !password || password !== comfirmPassword;
+    return isInvalid;
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = {
@@ -33,7 +40,11 @@ const Index = () => {
     signupUser({
       variables: { data },
     })
-      .then((res) => console.log(res))
+      .then(({ data: { signupUser } }) => {
+        console.log(signupUser);
+        localStorage.setItem("token", signupUser.token);
+        clearState();
+      })
       .catch((err) => console.log(err, "err"));
   };
   console.log(state);
@@ -70,8 +81,10 @@ const Index = () => {
           value={comfirmPassword}
         />
         <button
-          disabled={loading}
-          style={{ backgroundColor: loading ? "grey" : "#004cff" }}
+          disabled={loading || validateForm()}
+          style={{
+            backgroundColor: loading || validateForm() ? "grey" : "#004cff",
+          }}
         >
           {loading ? "Loading..." : "Submit"}
         </button>

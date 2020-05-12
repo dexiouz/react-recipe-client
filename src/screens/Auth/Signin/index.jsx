@@ -5,8 +5,8 @@ import { Form } from "./styles";
 import { Error } from "../../../components/Error";
 
 const initialState = {
-  username: "",
-  password: "",
+  username: "des",
+  password: "password1@",
 };
 const Index = () => {
   const [state, setState] = useState({ ...initialState });
@@ -39,7 +39,7 @@ const Index = () => {
       .then(({ data: { signinUser } }) => {
         console.log(signinUser);
         localStorage.setItem("token", signinUser.token);
-        clearState();
+        // clearState();
       })
       .catch((err) => console.log(err, "err"));
   };

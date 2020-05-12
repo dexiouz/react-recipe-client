@@ -9,13 +9,43 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import "./index.css";
 import App from "../src/App";
 import Home from "../src/screens/Home/";
+
 import Signin from "../src/screens/Auth/Signin";
 import Signup from "../src/screens/Auth/Signup";
 const client = new ApolloClient({
   uri: "http://localhost:4444/graphql",
+  fetchOptions: {
+    credentials: true,
+  },
+  request: async (operation) => {
+    const token = await localStorage.getItem("token");
+    operation.setContext({
+      headers: {
+        token,
+      },
+    });
+
+    // const request = async (operation) => {
+    //   const token = await AsyncStorage.getItem('token');
+    //   operation.setContext({
+    //     headers: {
+    //       token,
+    //       origin: 'https://myinventhub.com',
+    //     },
+    //   });
+    // };
+  },
+  onError: ({ networkError }) => {
+    if (networkError) {
+      console.log("Network Error", networkError);
+
+      if (networkError.statusCode === 401) {
+        localStorage.removeItem("token");
+      }
+    }
+  },
 });
 
 const Root = () => (

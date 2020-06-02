@@ -15,7 +15,7 @@ import Home from "../src/screens/Home/";
 import Signin from "../src/screens/Auth/Signin";
 import Signup from "../src/screens/Auth/Signup";
 const client = new ApolloClient({
-  uri: "http://localhost:4444/graphql",
+  uri: "http://localhost:4003/graphql",
   fetchOptions: {
     credentials: true,
   },
